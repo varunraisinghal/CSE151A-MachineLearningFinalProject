@@ -18,6 +18,9 @@ https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearning
 5. Since every song name is unique and non-numeric, we may have to assign each song a unique identifier integer ranging from 1 to 953.
 
 ## Milestone 3
+### Evaluating the Model In Terms of Training and Testing Error
+Referring back to the notebook cell results, more specifically cell 58, we notice that the training and testing error are roughly of the same magnitude, which does not suggest overfitting but a case of underfitting. In this case, we may need to select a better model in the future or perform rigorous tuning in order to bring the MSE closer to 0.
+
 ### Where does your model fit in the fitting graph?
 Our top 3 features correlated with `in_total_playlists` were `streams`, `released_year`, and `in_apple_charts`. When we used all 3 of these input features for the linear regression, we did not obtain a clean straight line as we would have if we used any 1 of these features by itself as the input feature. The graphs of `streams` and `released_year` are shown below:
 
