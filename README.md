@@ -18,11 +18,24 @@ https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearning
 5. Since every song name is unique and non-numeric, we may have to assign each song a unique identifier integer ranging from 1 to 953.
 
 ## Milestone 3
+### Where does your model fit in the fitting graph?
+Our top 3 features correlated with `in_total_playlists` were `streams`, `released_year`, and `in_apple_charts`. When we used all 3 of these input features for the linear regression, we did not obtain a clean straight line as we would have if we used any 1 of these features by itself as the input feature. The graphs of `streams` and `released_year` are shown below:
+
+![streams and in_total_playlists](/assets/M3%20graph%201.png)
+![released_year and in_total_playlists](/assets/M3%20graph%202.png)
+<!-- ![in_apple_charts and in_total_playlists](/assets/M3%20graph%203.png) -->
+
+In order to roughly see how the individual input features contributed to the output by themselves while holding the other values constant, we relied on partial dependence graphs shown below:
+
+![streams and in_total_playlists](/assets/M3%20graph%204.png)
+![released_year and in_total_playlists](/assets/M3%20graph%205.png)
+
+By observation, the regression seems to have minimal signs of overfitting, but a polynomial regression may be more optimal as a curve could help us reduce error especially in features such `in_apple_charts`.
 
 ### What are the next 2 models you are thinking of and why?
 Building on the linear regression model, our exploration into more sophisticated modeling techniques leads us to consider Polynomial Regression and SVR, each with unique attributes that make them suitable for our dataset's specific challenges.
 
-After working with linear regression, we are thinking of a few models such as Polynomical regression to account for the curved path that the data follows. In our linear model, we noticed the residuals scattered and noted thzt a polynomial regression would be a potentially better fit to try out. By incorpororating polynomial variables, this allows us to model a wide range of graphs. The flexibility to model for these non-linear trends is crucial in accurately representing the complexity of our dataset, which includes diverse metrics from platforms like Shazam, Spotify, and Apple Music. However, the challenge with Polynomial Regression lies in selecting the right degree for the polynomial. Setting too high of degree can lead to overfitting, where the model becomes overly complex and starts capturing noise, while too low of a degree might not capture the data's traits properly.
+After working with linear regression, we are thinking of a few models such as Polynomical regression to account for the curved path that the data follows. In our linear model, we noticed the residuals scattered and noted that a polynomial regression would be a potentially better fit to try out. By incorpororating polynomial variables, this allows us to model a wide range of graphs. The flexibility to model for these non-linear trends is crucial in accurately representing the complexity of our dataset, which includes diverse metrics from platforms like Shazam, Spotify, and Apple Music. However, the challenge with Polynomial Regression lies in selecting the right degree for the polynomial. Setting too high of degree can lead to overfitting, where the model becomes overly complex and starts capturing noise, while too low of a degree might not capture the data's traits properly.
 
 SVR is another model we're considering, particularly due to the complexity and potential high dimensionality of our dataset. SVR stands out with its use of kernel functions, which allow us to model complex, non-linear relationships without explicitly increasing the model's complexity through polynomial expansion. This aspect of SVR is particularly beneficial for our data, as it involves various dimensions and features from different music streaming platforms. The kernel trick in SVR enables us to explore these relationships in a more clear manner, potentially leading to more accurate predictions across different platforms. Moreover, SVR's ability to handle high-dimensional spaces is advantageous given the diverse range of features in our data, from streaming counts to musical characteristics. This makes SVR a great choice for achieving a balance between model accuracy and complexity, ensuring that we're not just fitting to random variables or missing out on critical patterns.
 
