@@ -1,9 +1,15 @@
-# CSE151A-MachineLearningFinalProject
-CSE151A-MachineLearningFinalProject
+# CSE151A - Machine Learning Final Project
+## Project Link
 
 https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearningFinalProject/blob/main/CSE151A_Machine_Learning.ipynb
 
-## Preprocessing Process
+## Navigation Links
+[Milestone 2 - Data Preprocessing](#milestone-2---data-preprocessing)\
+[Milestone 3 - Model 1](#milestone-3---model-1)\
+[Milestone 4 - Model 2](#milestone-4---model-2)\
+[Milestone 5 - Model 3](#milestone-5---model-3)
+
+## Milestone 2 - Data Preprocessing
 ### Things Already Done
 1. First, we loaded the CSV file and converted it to a pandas Dataframe for ease of manipulation.
 2. Next, after noticing missing values within the `in_shazam_charts` and `key` feature columns, we decided to do two things. First, we replaced the `in_shazam_charts` NA values with `0` since if the value for `in_shazam_charts` is not applicable, then it must not be in the Shazam charts, so it would in turn be false (aka `0`). Second, we decided, for now, to completely drop the `key` column since there were 95 missing values which will likely detract from our model without imputation. We will also drop the `mode` column, since it is related to the key and not necessary for objective.
@@ -17,15 +23,15 @@ https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearning
 4. Since currently all our features are percentages that range from 0 to 100, we will not have to standardize our dataset. However, if we decide to include other features, we may have to standardize our values.
 5. Since every song name is unique and non-numeric, we may have to assign each song a unique identifier integer ranging from 1 to 953.
 
-## Milestone 3
+## Milestone 3 - Model 1
 ### Evaluating the Model In Terms of Training and Testing Error
 Referring back to the notebook cell results, more specifically cell 58, we notice that the training and testing error are roughly of the same magnitude, which does not suggest overfitting but a case of underfitting. In this case, we may need to select a better model in the future or perform rigorous tuning in order to bring the MSE closer to 0.
 
 ### Where does your model fit in the fitting graph?
-Our top 3 features correlated with `in_total_playlists` were `streams`, `released_year`, and `in_apple_charts`. When we used all 3 of these input features for the linear regression, we did not obtain a clean straight line as we would have if we used any 1 of these features by itself as the input feature. The graphs of `streams` and `released_year` are shown below:
+Our top 3 features correlated with `in_total_playlists` were `streams`, `released_year`, and `in_apple_charts`. When we used all 3 of these input features for the linear regression, we did not obtain a clean straight line (shown in red as a scatterplot for visibility) as we would have if we used any 1 of these features by itself as the input feature. The graphs of `streams` and `released_year` are shown below:
 
-![streams and in_total_playlists](/assets/M3%20graph%201.png)
-![released_year and in_total_playlists](/assets/M3%20graph%202.png)
+![streams and in_total_playlists](/assets/M3%20graph%201%20scatter.png)
+![released_year and in_total_playlists](/assets/M3%20graph%202%20scatter.png)
 <!-- ![in_apple_charts and in_total_playlists](/assets/M3%20graph%203.png) -->
 
 In order to roughly see how the individual input features contributed to the output by themselves while holding the other values constant, we relied on partial dependence graphs shown below:
@@ -45,19 +51,43 @@ SVR is another model we're considering, particularly due to the complexity and p
 ### What is the conclusion of your 1st model? What can be done to possibly improve it?
 The conclusion that we can come to from our 1st model is that linear regression is too simple of a model for our data. Our MSE for both training and test sets were very high meaning that there was a huge difference between the data and the predicted values. As seen by the plots, our data does not really follow a linear trend so it would make sense that our MSE is very high. Our data is too complex to be fitted using linear regression, so to improve it we can use more complex models like polynomial regression. With polynomial regression, we can more accurately fit our data to account for curved patterns. However, using too low of a degree might still lead to underfitting, and choosing too high of a degree can lead to overfitting.
 
-## Milestone 4
+## Milestone 4 - Model 2
 ### Evaluate your data, labels and loss function. Were they sufficient or did you have have to change them.
-In the development of our second model, we implemented minor yet crucial adjustments in our data processing and loss function usage to enhance the model's performance. Initially, we shifted our data standardization approach from a basic linear approximation to min-max normalization. This transition was pivotal for preparing our dataset, comprised solely of numerical features (excluding the 'in_total_playlists' column, which was designated as the target variable y), for neural network algorithms. Neural networks are notably sensitive to the scale of input data, and by normalizing all numerical features to a common range between 0 and 1 using the MinMaxScaler from the scikit-learn library, we significantly improved the model's convergence speed and overall efficiency in identifying complex patterns within the data. The decision to maintain a numerical feature set was influenced by the relevance of these features to our predictive goals, allowing us to concentrate on refining other aspects of the model without altering the data structure significantly. As for the loss function, we chose the Mean Squared Error (MSE), initially used as an evaluation metric in linear models, as our primary loss function for the neural network. This decision was based on MSE's proven effectiveness in quantifying the difference between the model's predictions and the actual values, thereby supporting our aim to enhance model accuracy and performance in the transition to more complex neural network algorithms.
+In the development of our second model, we implemented minor yet crucial adjustments in our data processing and loss function usage to enhance the model's performance. Initially, we shifted our data standardization approach from a basic linear approximation to min-max normalization. This transition was pivotal for preparing our dataset, comprised solely of numerical features (excluding the `in_total_playlists` column, which was designated as the target variable y), for neural network algorithms. Neural networks are notably sensitive to the scale of input data, and by normalizing all numerical features to a common range between 0 and 1 using the MinMaxScaler from the scikit-learn library, we significantly improved the model's convergence speed and overall efficiency in identifying complex patterns within the data. The decision to maintain a numerical feature set was influenced by the relevance of these features to our predictive goals, allowing us to concentrate on refining other aspects of the model without altering the data structure significantly. As for the loss function, we chose the Mean Squared Error (MSE), initially used as an evaluation metric in linear models, as our primary loss function for the neural network. This decision was based on MSE's proven effectiveness in quantifying the difference between the model's predictions and the actual values, thereby supporting our aim to enhance model accuracy and performance in the transition to more complex neural network algorithms.
 
 ### Evaluate your model compare training vs test error
-After compiling our neural network model, it was trained using the model.fit method with the input features X_train and target variable y_train. To monitor the model's performance and mitigate overfitting, a validation set comprising 10% of the training data was established through the validation_split parameter. Additionally, an early stopping callback was utilized to halt training if no improvement in validation loss was observed over a series of epochs, enhancing the training process's efficiency and preventing overfitting. The training was conducted silently with the verbose parameter set to 0, meaning that updates on the training progress were not displayed. The model's accuracy and generalization capability were assessed by calculating the mean squared error (MSE) for both training and testing datasets, resulting in a Training MSE of 20,154,516.894655257 and a Test MSE of 23,606,315.05628287. These metrics indicate the model's performance, with the difference between the training and test MSE highlighting the model's ability to generalize to new, unseen data.
+After compiling our neural network model, it was trained using the model.fit method with the input features X_train and target variable y_train. To monitor the model's performance and mitigate overfitting, a validation set comprising 10% of the training data was established through the validation_split parameter. Additionally, an early stopping callback was utilized to halt training if no improvement in validation loss was observed over a series of epochs, enhancing the training process's efficiency and preventing overfitting. The training was conducted silently with the verbose parameter set to 0, meaning that updates on the training progress were not displayed. The model's accuracy and generalization capability were assessed by calculating the mean squared error (MSE) for both training and testing datasets, resulting in a Training MSE of roughly 16,000,000 and a Test MSE of 17,500,000. These metrics indicate the model's performance, with the difference between the training and test MSE highlighting the model's ability to generalize to new, unseen data.
 
 ### Where does your model fit in the fitting graph, how does it compare to your first model?
-
-### What is the plan for the next model you are thinking of and why?
-Our next step in improving our current numerical-based neural network involves a focused application of hyperparameter tuning, gradient descent, and k-fold cross-validation. The objective is to fine-tune the model's parameters using hyperparameter tuning, which allows us to systematically search for the most effective configuration. This method is crucial for enhancing model performance and efficiency. Gradient descent will be used to optimize the model further by adjusting parameters to minimize the cost function, a key step in improving the accuracy of predictions. We also plan to implement k-fold cross-validation, a robust method for assessing the model's generalizability. This involves dividing the dataset into k smaller sets to validate the model on one set while training on the others. This process helps prevent overfitting and ensures the model performs well on unseen data. This approach marks a significant improvement over our basic neural network by employing sophisticated techniques aimed at refining the model's accuracy and generalizability. Our goal is to not only enhance the performance of our neural network but also to ensure it remains adaptable and reliable across different datasets.
+With the fitting graph, we first looked at the model's `in_total_playlists` prediction with respect to all of the numeric features. We compare the predicted `in_total_playlists` values with the input feature `streams` below:\
+\
+The first image below is the graph from model 1 (linear regression).
+![streams and in_total_playlists](/assets/M4%20graph%201.png)\
+\
+The second image below is the graph from model 2 (neural network).
+![streams and in_total_playlists](/assets/M4%20graph%202.png)\
+\
+(For clarity, both models were run using all numeric features). By observation, we can see that the model 1 linear regression's predictions were restricted by the linear nature of this model, hence why we see a slight red line forming that cannot cover many of the blue dots (actual values) below it. By contrast, the neural network is able to predict values more accurately, hence why we see more red dots (predictions) covering blue dots (actual values).\
+\
+To see each feature's independent contribution to the output, we relied once more on partial dependence plots shown below:\
+![streams and in_total_playlists](/assets/M4%20graph%203.png)\
+\
+In comparison to the model 1's partial dependence plots, we can see that model 2 has generated a subtle curve for each of the input features. Though it is hard to notice, this curve likely fits the data better, which has led to model 2 having a lower MSE than model 1 on new data. We can see this with `streams` below:\
+\
+The first image below is the graph from model 1 (linear regression).\
+![streams and in_total_playlists](/assets/M4%20graph%204.png)\
+\
+The second image below is the graph from model 2 (neural network).\
+![streams and in_total_playlists](/assets/M4%20graph%205.png)
 
 ### Did you perform hyper parameter tuning? K-fold Cross validation? Feature expansion? What were the results?
 In our most recent development phase, contrary to our initial approach, we actively engaged in implementing advanced techniques such as hyperparameter tuning and k-fold cross-validation, alongside integrating callbacks like early stopping and model checkpointing to refine our neural network's training process. We established a static learning rate of 0.001 and utilized a 10-fold cross-validation scheme, dividing the data into 10 folds to ensure a robust evaluation of the model's generalizability across different data subsets. With a batch size of 100 and a training epoch limit set to 1000, we optimized our training regimen to balance between computational efficiency and model performance. Our methodology involved iterating through each fold defined by a KFold object with 10 splits, training the model on each split, and calculating the Mean Squared Error (MSE) for both training and test sets. This comprehensive evaluation strategy allowed us to assess the model's performance consistently across different partitions of the dataset, enhancing the reliability of our findings. By incorporating an early stopping callback, we mitigated the risk of overfitting by halting the training process if the validation loss showed no improvement over a designated number of epochs. Simultaneously, the model checkpointing ensured the preservation of the best model state throughout the training process.
 
+### What is the plan for the next model you are thinking of and why?
+Our next step in improving our current numerical-based neural network involves a focused application of hyperparameter tuning, gradient descent, and k-fold cross-validation. The objective is to fine-tune the model's parameters using hyperparameter tuning, which allows us to systematically search for the most effective configuration. This method is crucial for enhancing model performance and efficiency. Gradient descent will be used to optimize the model further by adjusting parameters to minimize the cost function, a key step in improving the accuracy of predictions. We also plan to implement k-fold cross-validation, a robust method for assessing the model's generalizability. This involves dividing the dataset into k smaller sets to validate the model on one set while training on the others. This process helps prevent overfitting and ensures the model performs well on unseen data. This approach marks a significant improvement over our basic neural network by employing sophisticated techniques aimed at refining the model's accuracy and generalizability. Our goal is to not only enhance the performance of our neural network but also to ensure it remains adaptable and reliable across different datasets.
 
+### What is the conclusion of your 2nd model? What can be done to possibly improve it? How did it perform to your first and why?
+Our second model was a step up from the first model in terms of complexity and results. When using all numeric input features, model 1 had a testing MSE of roughly 36,000,000. Model 2 in comparison had a testing MSE of roughly 17,000,000 (24,000,000 for kfold cross validation). Model 2, being a neural network, can account for more complex and non-linear relationships that linear regressions struggle with. Model 1's linear regression, as shown in previous figures, predicted poorly especially with clusters of points. Model 2 however was able to generate curves to better account for this complexity. For improvement, we can perform more hyperparameter tuning with the number of layers, number of nodes per layer, the optimizer, the activation function, etc. Though this would take a lot of time, this would ensure that the most optimal parameters are chosen to minimize the MSE and get more accurate predictions.
+
+## Milestone 5 - Model 3
+TBA
