@@ -1,6 +1,6 @@
 # CSE151A - Machine Learning Final Project
-## Project Link
 
+## Project Link
 https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearningFinalProject/blob/main/CSE151A_Machine_Learning.ipynb
 
 ## Navigation Links
@@ -8,6 +8,41 @@ https://colab.research.google.com/github/varunraisinghal/CSE151A-MachineLearning
 [Milestone 3 - Model 1](#milestone-3---model-1)\
 [Milestone 4 - Model 2](#milestone-4---model-2)\
 [Milestone 5 - Model 3 and Final](#milestone-5---model-3-and-final)
+
+## Introduction
+### Proposed Main Dataset: 
+https://www.kaggle.com/datasets/nelgiriyewithana/top-spotify-songs-2023
+
+### Dataset Description:
+The dataset is titled: “Most Streamed Spotify Songs 2023" and offers a comprehensive list of ~1000 of the most popular songs on Spotify for 2023. It includes a wide range of data points that go beyond typical song datasets, providing a deep dive into the attributes and popularity of each track across various music platforms. 
+
+### Key features of this dataset include:
+1. Track Name: The title of the song.
+2. Artist(s) Name: The name(s) of the artist(s) who performed the song.
+3. Artist Count: The number of artists contributing to the song.
+4. Release Date: The year, month, and day when the song was released.
+5. BPM: Beats per minute, a measure of song tempo
+6. Key: Key of the song
+7. Mode: Mode of the song (major or minor)
+8. Spotify Metrics: Includes the number of Spotify playlists the song is in, its presence and rank on Spotify charts, and total streams on Spotify.
+9. Apple Music Metrics: Number of Apple Music playlists featuring the song and its rank on Apple Music charts.
+10. Deezer Metrics: Similar data for Deezer, including playlist inclusion and chart ranking.
+11. Shazam Charts: The song's presence and rank on Shazam charts.
+12. Audio Features: Various characteristics of the song such as BPM (beats per minute), key, mode, danceability, valence, energy, acousticness, instrumentalness, liveness, and speechiness, usually given in percentages.
+
+### Abstract:
+This project introduces an innovative approach to forecast the number of playlist a song is in using the Spotify dataset, an extensive repository of music and associated features. Our goal is to predict the inclusion of songs in playlists across major music streaming platforms, such as Spotify, Apple Music, and Deezer, using a comprehensive dataset of the most streamed Spotify songs of 2023.  Utilizing the machine learning techniques we use in this course, we can analyze the dataset to identify patterns and correlations between a song's features and its popularity. This involves an examination of the various features contained within the Spotify dataset, such as musical composition, lyrical content, and genre-specific elements. Our analysis utilizes the rich data provided by the Spotify dataset, which encompasses a wide array of audio features and streaming metrics. We aim to see the underlying trends driving the music industry's hit productions and identify the key factors contributing to a song's success. This approach seeks to bridge the gap between the quantitative data of song popularity and the qualitative aspects of musical creativity. Ultimately, our research intends to offer valuable insights into the preferences of music, supporting a more data-informed strategy in hit song production.
+
+### Why This Project? 
+We chose this project because we thought it would be interesting to see how music producers produce a hit song. We wanted to see if there was an underlying formula, or if these producers were just randomly producing great hits. Historically, predicting a hit song was often left to the intuition of music executives and producers. However, by applying data science to music analytics, we can identify quantifiable patterns and trends that contribute to a song's popularity. This makes the field of producing music level for those wanting to make a hit song just like the top charts. 
+
+### Why is it cool?
+The coolest aspect of this project lies in its capacity to convert the abstract qualities of music—such as melody, rhythm, lyrics, and genre—into quantifiable data that can be analyzed and predicted. Imagine unveiling a formula that could predict the next chart-topper, leveraging the complex interplay of beats per minute, lyrical sentiment, and genre trends. This project is thrilling because it offers a glimpse into the future of music production, where data and creativity converge to create hits. It challenges the traditional notion that hit songs are born solely from creative genius, proposing instead that there's a patterned science behind music that captivates the masses. Our fascination with understanding what makes a song go viral or become a one-hit wonder propels this project into an exciting exploration of music analytics.
+
+### Impact of a Good Predictive Model
+The potential impact of an accurate predictive model for song popularity is vast, extending beyond the music industry to influence how content is curated, marketed, and consumed across global digital platforms. For artists and producers, such a model could offer a blueprint for success, enabling them to craft songs with elements that are more likely to appeal to their target audiences. Record labels could optimize their investment strategies, focusing on artists and projects with the highest potential for commercial success. Streaming platforms, on the other hand, could enhance their recommendation algorithms, improving user experience by connecting listeners with songs that are more aligned with their tastes and preferences. 
+Moreover, the broader cultural impact of this project could be significant, fostering a greater diversity of music that has the potential to become popular. By understanding the dynamics of hit song production, the industry can move away from a one-size-fits-all approach, encouraging a wider range of artistic expressions to flourish. In essence, a good predictive model does not just predict hits; it could potentially redefine what a hit can be, contributing to a richer, more diverse musical landscape.
+
 
 ## Milestone 2 - Data Preprocessing
 ### Things Already Done
