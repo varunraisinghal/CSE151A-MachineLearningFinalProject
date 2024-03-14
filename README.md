@@ -124,5 +124,102 @@ Our next step in improving our current numerical-based neural network involves a
 ### What is the conclusion of your 2nd model? What can be done to possibly improve it? How did it perform to your first and why?
 Our second model was a step up from the first model in terms of complexity and results. When using all numeric input features, model 1 had a testing MSE >36,000,000. Model 2 in comparison had a testing MSE of ~20,000,000 (~24,000,000 for kfold cross validation). Model 2, being a neural network, can account for more complex and non-linear relationships that linear regressions struggle with. Model 1's linear regression, as shown in previous figures, predicted poorly especially with clusters of points that are difficult to predict with just a line. Model 2 however was able to generate curves to better account for this complexity. For improvement, we can perform more hyperparameter tuning with the number of layers, number of nodes per layer, the optimizer, the activation function, etc. Though this would take a lot of time, this would ensure that the most optimal parameters are chosen to minimize the MSE and get more accurate predictions.
 
+## FIGURES/ PICTORIAL REPRESENTATIONS 
+The Python notebook on GitHub contains various images depicting data visualizations and model analyses, such as histograms, scatter plots, and heatmaps, highlighting key aspects of the project like data distribution, feature correlations, and model performance. 
+The data exploration involved examining track features from Spotify, identifying patterns, and handling missing or erroneous values. Preprocessing techniques included normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics.
+
+### Figures in Exploratory Data Analysis:
+Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies.
+
+This visual subplots of different features in the dataset gives an insight into the range, distribution type which helps us standardize data and augment it potentially in the future.
+
+This heatmap gives a very detailed correlation between features. By observing how these features correlate with one another—for instance, whether more danceable tracks tend to be more energetic—you can make more informed decisions on feature selection and engineering for predictive modeling. 
+
+### Figures for Model 1 - Linear Regression Model:
+
+The image shows a series of partial dependence plots from a predictive model, testing the relationship between several features and the target variable. Observing the 'Fit' line and the distribution of 'Actual' data points, we can assess whether and how well the model captures the trends in the data for each feature individually. 
+
+### Figures for Model 2 (DFFNN with RELU activation function):
+
+### Figures for Model 3:
+
+## METHODS
+
+### Model 1 (Linear Regression):
+For Model 1, we use a Linear Regression model with the Top 3 Correlating Features, we'll delve into a more detailed explanation of the methods section. This section will be structured to outline the methodology, focusing on each step from data exploration through to the modeling process.
+
+#### Data Exploration
+The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.
+
+#### Preprocessing
+The preprocessing stage involved preparing the dataset for modeling. This included the following key steps:
+Data Splitting: The dataset was split into training and testing sets, to an 80/20 split. This division ensured a robust evaluation of the model's performance, providing a separate dataset for training and another for validation to test the model's prediction on unseen data.
+Feature Selection: Based on the correlation analysis during the data exploration phase, the top 3 correlating features were isolated from the dataset. This step refined the input variables to those most relevant for predicting the target variable, streamlining the model's focus and potentially improving its performance.
+
+#### Model Details:
+The modeling process was centered around Linear Regression, a fundamental technique for predicting continuous variables. This choice was made by the model's simplicity, and suitability for establishing linear relationships between the selected features and the target variable.
+
+#### Model Training: 
+The Linear Regression model was trained using the selected features from the preprocessing stage. The training process involved adjusting the model's parameters to minimize the difference between the predicted and actual values of the target variable within the training dataset. This iterative process aimed to find the best-fit line that could generalize well to new, unseen data.
+
+#### Model Evaluation: 
+To assess the model's performance, the Mean Squared Error (MSE) metric was employed. MSE provided a quantitative measure of the model's accuracy by calculating the average squared difference between the predicted and actual values. 
+
+#### Visualization: 
+Most of the visualizations were provided in the previous section but visualizing the model's predictions against the actual values gave us a more intuitive understanding of the model’s power. The discrepancies and high value of error made us realize that a simple linear regression model wouldn’t be fully sufficient. Through scatter plots depicting the relationship we could conclude what features were best of use to continue using and gave us a direction to move forward with the project.
+
+### Model 2 (DFFNN with RELU activation function):
+Model 2 uses a Deep Feedforward Neural Network (DFFNN) with the ReLU activation function, leveraging all numerical features from the Spotify dataset. This model represents a more complex approach than linear regression, aiming to capture nonlinear relationships within the data through a multi-layer architecture.
+#### Architecture Summary:
+Input Layer: 17 neurons (for each numerical feature)
+Hidden Layer 1: 17 neurons, ReLU activation
+Hidden Layer 2: 34 neurons, ReLU activation
+Hidden Layer 3: 34 neurons, ReLU activation
+Hidden Layer 4: 17 neurons, ReLU activation
+Output Layer: 1 neuron, ReLU activation
+
+#### Data Exploration and Preprocessing
+Before the neural network model was constructed, we preprocessed all numerical features within the Spotify dataset. This preprocessing step involved scaling the data using MinMaxScaler to normalize feature values between 0 and 1, a crucial step for neural network models to ensure that no particular feature dominates the learning process due to its scale. The dataset was then split into training and test sets with an 80/20 ratio, maintaining a balance between training the model and evaluating its performance on unseen data.
+
+
+#### Training Strategy
+The training strategy incorporated several key components to optimize performance and prevent overfitting:
+
+#### Optimizer: 
+Adam optimizer was selected with a static learning rate of 0.001. This optimizer is widely used for its adaptiveness in handling sparse gradients on noisy problems.
+
+#### Loss function: 
+Mean Squared Error (MSE) was used as the loss function, aligning with the model's goal to minimize the difference between predicted and actual playlist counts. This is what we kept the same from our model 1 as well.
+Early Stopping: Implemented to halt training if the validation loss did not improve for 100 epochs, helping prevent overfitting by restoring model weights.
+
+#### Evaluation and Analysis
+The model was evaluated based on its MSE on both training and test datasets. Notably, the training MSE was significantly lower than the test MSE, indicating the model's ability to learn from the training data but also suggesting a potential overfitting to the training set or underperformance on the test set. Hence, we perform K-Fold Cross Validation on this and we see results for it after. 
+
+Visualizations played a crucial role in interpreting the model's performance. Scatter plots comparing actual vs. predicted values for both training and test data provided insights into the model's accuracy and areas of improvement. Partial Dependence Plots (PDPs) were used to understand the effect of each feature on the prediction outcome, for a deeper look into the model's internal decision-making process.
+
+
+
+## Model 3 (Extra Trees Regressor):
+#### Data Preparation
+The dataset includes features like artist count, release year, streams, and various musical attributes (e.g., bpm, danceability).Excluded columns related to playlist inclusions on specific platforms and non-numerical features (e.g., track name, artist names) to focus on numerical predictors.The target variable is in_total_playlists, representing the total playlist inclusions across platforms.
+Preprocessing
+Numerical features were standardized using StandardScaler to ensure model input variables have a mean of 0 and a standard deviation of 1, improving model performance.
+
+#### Model Training and Evaluation
+#### Model Used: 
+Extra Trees Regressor, trained on the preprocessed numerical features.
+#### Fitting the Model: 
+The model was trained using the entire set of standardized numerical features from the training dataset.
+#### Performance Metrics:
+#### Mean Squared Error (MSE): 
+10,363,528.63, indicating the average squared difference between the estimated values and the actual value of the total playlist inclusions.
+R-squared (R²).
+
+
+
+
+
+
+
 ## Milestone 5 - Model 3 and Final
 TBA
