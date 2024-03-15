@@ -321,18 +321,47 @@ The testing MSE is ~12,000,000, and the R2 score is ~0.83, a strong improvement 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Discussion
 
+### Data exploration 
+
+After settling on a dataset to work with, the data exploration involved inspecting the various metrics and variables that went into making a song popular. We looked for key columns that we might think had the most impact on making a song popular. Some observations we had about the data were that there were some columns with missing values. For those columns, we planned on just removing them in the preprocessing step. As for columns with the wrong type, we typecasted columns like ‘streams’ from ‘object/float64’ to ‘int64’ so that we could actually do work on that data.
+
+### Preprocessing  
+
+If the value for in_shazam_charts is not applicable, then it must not be in the Shazam charts, so it would in turn be false (aka 0).  since there were 95 missing values which will likely detract from our model without imputation. since it is related to the key and not necessary for objective. We wanted to do this to get a good understanding of the basic statistical details like mean, standard deviation, minimum, and maximum values of each numeric feature so that we can get a good sense of our data. histogram to help understand the distribution of the characteristics of the songs. Heatmap in order to identify trends and analyze how different features correlate to each other. 
+
 ### Model 1 - Linear Regression Model
 
 We chose a linear regression for our first model because of the model's simplicity and suitability for establishing basic linear relationships between the selected features and the target variable. Upon training our model using the top 3 input features correlated to the output feature, predicting the yhat, and attempting to plot, we discovered that we did not fully understand what our independent variable would be on a plot. Since we used multiple input features, when we plotted each yhat with each input feature, we did not get straight lines as expected from a regression. Thus, we relied on partial dependence plots, which keeps all but 1 input feature constant, allowing us to see each input feature's contribution to the output independently. We used MSE as quantitative measure of the model's accuracy by calculating the average squared difference between the predicted and actual values. This error function is used in regressions often, and gave us a baseline value to compare other models to.
 
 ### Model 2 - DFFNN with RELU
 
-This model represents a more complex approach than linear regression, aiming to capture nonlinear relationships within the data through a multi-layer architecture. We first performed min-max scaling on our input featuers, which is a crucial step for neural network models to ensure that no particular feature dominates the learning process due to its scale.
+For the next model, we decided to use a deep feed forward neural network using a relu activation function to improve upon the MSE of the first model. We used a neural network implemented with 4 hidden layers which was a good enough number such that the model would not be too simple like our linear regression model nor would it lead to overfitting because of its increased complexity. Our results for the 2nd model were much more believable than the 1st model because our predicted values started to conform to the general shape of the data for the scatter plots. We saw a slight decrease in MSE suggesting that the model was better than linear regression. This was visible in the partial dependence plots where the curvature in the lines just slightly fit better than a linear regression.
 
 ### Model 3 - Random Forest
 
+We used a Random Forest regressor and Extra Trees regressor for our 3rd model with hyperparameter tuning to improve upon the MSE of our first two models. The MSE once again improved as we increased the complexity of our models. Our 2nd model had a pretty good improvement over linear regression. However, for our 3rd model, the addition of hypertuning parameters further improved our MSE. As for the plots, we again plotted each feature on a scatterplot against the data. Like our 2nd model, the scatterplots showed that our predicted values for both training and test sets relatively fit the shape of the actual data. For our partial dependence plots specifically looking at the ‘streams’, which was the highest correlating feature, the line of best fit started to look more complex rather than a straight line or a line with a slight curve. This could have indicated that our models were better generalizing to the data than before.
+
+
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Conclusion
+For this dataset specifically, it was relatively hard to get any one kind of model that fit the data. However, we did continually improve our performance over each milestone by increasing the complexity of the models we used. For the scatterplots, the general shape of our predicted models started to better fit the data over every iteration. However, for the ‘streams’ scatterplot for model 3 our model was wildly off from the data. This could be concerning as ‘streams’ was the feature that most correlated to making a popular song. Other than that, our models improved each time. For the partial dependence plots, there was not much of a visible pattern to the data in the first place. However, we feel that our line of best fit did generalize better to the data over each model. The data overall mostly had clusters of data points, which made it hard for a line of any kind to represent the shape of the data properly. The ‘streams’ feature had the most clear relationship of any feature. The partial dependence plots for ‘streams’ seem to have improved as the models became more complex. For future directions, we could possibly combine multiple models for added complexity, while being cautious of overfitting due to being overly complex. The goal over the entire project was to see if there was anything specific that went into producing a hit song, by capturing a general pattern of any specific feature of a song.
 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Collaboration
+Varun Singhal - X Title: 
+    Contribution: 
+          Set up repository, colab notebooks, and etc.. 
+          Helped write abstract document for Milestone 1 and research datasets with group
+          Initial Exploratory Analysis help on Milestone 2
+          What are the next 2 models you are thinking of on Milestone 3
+          What is the conclusion of the models on Milestone 3
+          Completed Milestone 4.1,4.5A,4.5B
+          Final Project #1 - Complete Introduction
+          Final Project #4A - Introduction of Project
+          
+Eric Tran
+    Contribution: 
+          Researched datasets with group
+          Milestone 3 - What is the conclusion of your 1st model? What can be done to possibly improve it?
+          Completed Final Project #4EF - Discussion and Conclusion
+
