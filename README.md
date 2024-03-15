@@ -553,6 +553,7 @@ Varun Singhal - X Title:
 6. Completed Milestone 4.1,4.5A,4.5B
 7. Final Project #1 - Complete Introduction
 8. Final Project #4A - Introduction of Project
+9. Final Project #4E - Final Thoughts w/ Jason
           
 Eric Tran
 1. Researched datasets with group
