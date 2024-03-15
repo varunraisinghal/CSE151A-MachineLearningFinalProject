@@ -211,6 +211,22 @@ To assess the model's performance, the Mean Squared Error (MSE) metric was emplo
 
 We used Scatter plots comparing actual (y) vs. predicted values (yhat) as a basic way to assess accuracy. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
 
+#### Implementation 
+```
+def m1_linear_regression(data, in_features, out_feature):
+    X_train, X_test, y_train, y_test = train_test_split(data[in_features], data[out_feature], test_size=0.20, random_state = 42)
+
+    lin_reg = LinearRegression()
+    lin_reg.fit(X_train, y_train)
+
+    yhat_train = lin_reg.predict(X_train)
+    yhat_test = lin_reg.predict(X_test)
+
+    run_analytics(lin_reg, X_train, X_test, y_train, y_test, yhat_train, yhat_test, in_features, out_feature, 1)
+    
+m1_linear_regression(spotify_data, top_3_features, 'in_total_playlists')
+```
+
 ### Model 2 - DFFNN with RELU
 
 Model 2 uses a Deep Feedforward Neural Network (DFFNN) with the ReLU activation function, leveraging all numerical features from the Spotify dataset.
@@ -250,6 +266,110 @@ The model was evaluated based on its MSE on both training and test datasets. We 
 
 Scatter plots comparing actual (y) vs. predicted values (yhat) for both training and test data provided insights into the model's accuracy and areas of improvement. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
 
+#### Implementation 
+```
+def m2_neural_network(data, in_features, out_feature):
+    X = MinMaxScaler().fit_transform(data[in_features])
+    y = data[out_feature]
+
+    X_train, X_test, y_train, y_test = train_test_split(pd.DataFrame(X, columns = in_features), y, test_size=0.20, random_state = 42)
+
+    activationMethod = "relu"
+    metrics = ["mean_squared_error"]
+    loss_type = "mean_squared_error"
+    lr_static = 0.001
+    batch_size=100
+    epochs=1000
+
+    model = keras.Sequential()
+    model.add(keras.Input(shape=np.shape(in_features)))
+    model.add(layers.Dense(17, activation=activationMethod, name="layer1"))
+    model.add(layers.Dense(34, activation=activationMethod, name="layer2"))
+    model.add(layers.Dense(34, activation=activationMethod, name="layer3"))
+    model.add(layers.Dense(17, activation=activationMethod, name="layer4"))
+    model.add(layers.Dense(1, activation=activationMethod, name="output"))
+
+    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=1e-2,
+        decay_steps=10000,
+        decay_rate=0.95) #Found on the keras.io/api/optimizers page as an example of dynamic learning rate
+
+    opt = keras.optimizers.Adam(
+        learning_rate=lr_static
+    )
+
+    early_stopping = tf.keras.callbacks.EarlyStopping(
+        monitor='val_loss',
+        min_delta=0,
+        patience=100,
+        verbose=1,
+        mode='min',
+        baseline=None,
+        restore_best_weights=True,
+        start_from_epoch=100
+    )
+
+    model_checkpoint = tf.keras.callbacks.ModelCheckpoint(
+        filepath="./modelCheckpoints",
+        monitor='val_loss',
+        verbose = 0,
+        save_best_only = False,
+        save_weights_only = False,
+        mode = 'auto',
+        save_freq = 'epoch',
+        options = None,
+        initial_value_threshold = None
+    )
+
+    model.compile(optimizer=opt, loss=loss_type, metrics=metrics)
+
+    kr_model = KerasRegressor(model, loss = loss_type, metrics = metrics, verbose = 0)
+
+    history = kr_model.fit(X_train.astype('float'), y_train, validation_split=0.1, callbacks = [early_stopping], batch_size=batch_size, epochs=epochs, verbose=0)
+
+    yhat_train = kr_model.predict(X_train, verbose=0)
+    yhat_test = kr_model.predict(X_test, verbose=0)
+
+    run_analytics(kr_model, X_train, X_test, y_train, y_test, yhat_train, yhat_test, in_features, out_feature, 2)
+
+    y = np.array(y)
+    MSE_train = []
+    MSE_test = []
+
+    R2_train = []
+    R2_test = []
+
+    num_splits = 10
+    kf = KFold(n_splits=num_splits)
+
+    for i, (train_index, test_index) in enumerate(kf.split(X, y)):
+        history = model.fit(X[train_index].astype('float'), y[train_index], validation_split=0.1, callbacks = [early_stopping], batch_size=batch_size, epochs=epochs, verbose=0)
+    
+        fold_pred_train = model.predict(X[train_index])
+        fold_pred_test = model.predict(X[test_index])
+
+        mse_train = mean_squared_error(y[train_index], fold_pred_train)
+        mse_test = mean_squared_error(y[test_index], fold_pred_test)
+        r2_train = r2_score(y[train_index], fold_pred_train)
+        r2_test = r2_score(y[test_index], fold_pred_test)
+        print("Fold " + str(i) + " Training MSE: " + str(mse_train))
+        print("Fold " + str(i) + " Training R2: " + str(r2_train))
+        print("Fold " + str(i) + " Testing MSE: " + str(mse_test))
+        print("Fold " + str(i) + " Testing R2: " + str(r2_test) + '\n')
+
+        MSE_train.append(mse_train)   
+        MSE_test.append(mse_test)
+        R2_train.append(r2_train)   
+        R2_test.append(r2_test)
+
+    print("\nOverall Training MSE: " + str(np.array(MSE_train).mean()))
+    print("Overall Training R2: " + str(np.array(R2_train).mean()))
+    print("\nOverall Testing MSE: " + str(np.array(MSE_test).mean()))
+    print("Overall Testing R2: " + str(np.array(R2_test).mean()))
+
+m2_neural_network(spotify_data, all_features, 'in_total_playlists')
+```
+
 ### Model 3 - Random Forest
 
 #### Data Preparation
@@ -275,6 +395,71 @@ The model was trained using the entire set of standardized numerical features fr
 10,363,528.63, indicating the average squared difference between the estimated values and the actual value of the total playlist inclusions.
 R-squared (R²).
 
+#### Implementation 
+
+```
+def m3_random_forest(data, in_features, out_feature):
+    X_train, X_test, y_train, y_test = train_test_split(data[in_features], data[out_feature], test_size=0.2, random_state=42)
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', StandardScaler(), in_features),
+        ],
+        remainder='passthrough'  # columns not specified are left untouched
+    )
+
+    model = Pipeline(steps=[
+        ('preprocessor', preprocessor),
+        ('regressor', RandomForestRegressor())
+    ])
+
+    param_grid = {
+        'regressor__n_estimators': [50, 100, 200],
+        'regressor__max_depth': [10, 20, 30, None],
+        'regressor__min_samples_split': [2, 5, 10],
+        'regressor__min_samples_leaf': [1, 2, 4],
+        'regressor__max_features': [1.0, 'sqrt', 'log2']
+    }
+
+    grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_mean_squared_error', cv=5)
+
+    grid_search.fit(X_train, y_train)
+
+    best_model = grid_search.best_estimator_
+
+    yhat_train = best_model.predict(X_train)
+    yhat_test = best_model.predict(X_test)
+
+    print(f'\nBest Hyperparameters: {grid_search.best_params_}')
+
+    run_analytics(best_model, X_train, X_test, y_train, y_test, yhat_train, yhat_test, in_features, out_feature, 3)
+
+m3_random_forest(spotify_data, all_features, 'in_total_playlists')
+```
+
+### Model 4 - Extra Trees Regressor
+
+We chose to implement an Extra Trees Regressor because 
+
+#### Implementation
+```
+def m4_extra_trees(data, in_features, out_feature):
+    # train test split with 80% train 20% test using input features
+    X_train, X_test, y_train, y_test = train_test_split(data[in_features], data[out_feature], test_size=0.20, random_state = 42)
+
+    # create and train the model
+    model = ExtraTreesRegressor(random_state=21)
+    model.fit(X_train, y_train)
+
+    # get yhat for training and testing data
+    yhat_train = model.predict(X_train)
+    yhat_test = model.predict(X_test)
+
+    # call helper functions
+    run_analytics(model, X_train, X_test, y_train, y_test, yhat_train, yhat_test, in_features, out_feature, 4)
+    
+m4_extra_trees(spotify_data, all_features, 'in_total_playlists')
+```
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Results
 
@@ -350,6 +535,8 @@ For the next model, we decided to use a deep feed forward neural network using a
 
 We used a Random Forest regressor and Extra Trees regressor for our 3rd model with hyperparameter tuning to improve upon the MSE of our first two models. The MSE once again improved as we increased the complexity of our models. Our 2nd model had a pretty good improvement over linear regression. However, for our 3rd model, the addition of hypertuning parameters further improved our MSE. As for the plots, we again plotted each feature on a scatterplot against the data. Like our 2nd model, the scatterplots showed that our predicted values for both training and test sets relatively fit the shape of the actual data. For our partial dependence plots specifically looking at the ‘streams’, which was the highest correlating feature, the line of best fit started to look more complex rather than a straight line or a line with a slight curve. This could have indicated that our models were better generalizing to the data than before.
 
+### Final Thoughts
+Although in our final model we arrive at a final trained MSE of ~12,000,000 - this is a much better improvement than in model 1 and model 2. The nature of having such a high MSE is due to the fact that the average mean value of the feature that we are predicting is around 5000 which is reasonable to have an error with a magnitude of that order. It won't be a small increment due to the nature of how big the denomination is. Since we use MSE, we should expect a exponential (square) of the average, resulting in an extremely high value which indicates that our final MSE of ~12,000,000 is not so bad actually.  
 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Conclusion
