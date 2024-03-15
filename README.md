@@ -124,6 +124,8 @@ Our next step in improving our current numerical-based neural network involves a
 ### What is the conclusion of your 2nd model? What can be done to possibly improve it? How did it perform to your first and why?
 Our second model was a step up from the first model in terms of complexity and results. When using all numeric input features, model 1 had a testing MSE >36,000,000. Model 2 in comparison had a testing MSE of ~20,000,000 (~24,000,000 for kfold cross validation). Model 2, being a neural network, can account for more complex and non-linear relationships that linear regressions struggle with. Model 1's linear regression, as shown in previous figures, predicted poorly especially with clusters of points that are difficult to predict with just a line. Model 2 however was able to generate curves to better account for this complexity. For improvement, we can perform more hyperparameter tuning with the number of layers, number of nodes per layer, the optimizer, the activation function, etc. Though this would take a lot of time, this would ensure that the most optimal parameters are chosen to minimize the MSE and get more accurate predictions.
 
+## Milestone 5 - Model 3 and Final
+
 ## FIGURES/ PICTORIAL REPRESENTATIONS 
 The Python notebook on GitHub contains various images depicting data visualizations and model analyses, such as histograms, scatter plots, and heatmaps, highlighting key aspects of the project like data distribution, feature correlations, and model performance. 
 The data exploration involved examining track features from Spotify, identifying patterns, and handling missing or erroneous values. Preprocessing techniques included normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics.
@@ -131,17 +133,27 @@ The data exploration involved examining track features from Spotify, identifying
 ### Figures in Exploratory Data Analysis:
 Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies.
 
+![streams and in_total_playlists](/final%20assets/histograms.png)
+
 This visual subplots of different features in the dataset gives an insight into the range, distribution type which helps us standardize data and augment it potentially in the future.
+
+![streams and in_total_playlists](/final%20assets/heatmap.png)
 
 This heatmap gives a very detailed correlation between features. By observing how these features correlate with one another—for instance, whether more danceable tracks tend to be more energetic—you can make more informed decisions on feature selection and engineering for predictive modeling. 
 
 ### Figures for Model 1 - Linear Regression Model:
 
+![streams and in_total_playlists](/final%20assets/m1%20pdp.png)
+
 The image shows a series of partial dependence plots from a predictive model, testing the relationship between several features and the target variable. Observing the 'Fit' line and the distribution of 'Actual' data points, we can assess whether and how well the model captures the trends in the data for each feature individually. 
 
 ### Figures for Model 2 (DFFNN with RELU activation function):
 
+![streams and in_total_playlists](/final%20assets/m2%20pdp.png)
+
 ### Figures for Model 3:
+
+![streams and in_total_playlists](/final%20assets/m3%20pdp.png)
 
 ## METHODS
 
@@ -214,12 +226,3 @@ The model was trained using the entire set of standardized numerical features fr
 #### Mean Squared Error (MSE): 
 10,363,528.63, indicating the average squared difference between the estimated values and the actual value of the total playlist inclusions.
 R-squared (R²).
-
-
-
-
-
-
-
-## Milestone 5 - Model 3 and Final
-TBA
