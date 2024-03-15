@@ -154,17 +154,18 @@ The coolest aspect of this project lies in its capacity to convert the abstract 
 
 The potential impact of an accurate predictive model for song popularity is vast, extending beyond the music industry to influence how content is curated, marketed, and consumed across global digital platforms. For artists and producers, such a model could offer a blueprint for success, enabling them to craft songs with elements that are more likely to appeal to their target audiences. Record labels could optimize their investment strategies, focusing on artists and projects with the highest potential for commercial success. Streaming platforms, on the other hand, could enhance their recommendation algorithms, improving user experience by connecting listeners with songs that are more aligned with their tastes and preferences.
 Moreover, the broader cultural impact of this project could be significant, fostering a greater diversity of music that has the potential to become popular. By understanding the dynamics of hit song production, the industry can move away from a one-size-fits-all approach, encouraging a wider range of artistic expressions to flourish. In essence, a good predictive model does not just predict hits; it could potentially redefine what a hit can be, contributing to a richer, more diverse musical landscape.
-
 <!-- ------------------------------------------------------------------------------------------------------------->
-## Methods
+## FIGURES/ PICTORIAL REPRESENTATIONS
+The Python notebook on GitHub contains various images depicting data visualizations and model analyses, such as histograms, scatter plots, and heatmaps, highlighting key aspects of the project like data distribution, feature correlations, and model performance. 
+The data exploration involved examining track features from Spotify, identifying patterns, and handling missing or erroneous values. Preprocessing techniques included normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics.
 
-### Data Exploration
+### Figures in Exploratory Data Analysis:
+Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies.
 
-The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.\
-\
 This visual histograms of different features in the dataset gives an insight into the range, distribution type which helps us standardize data and augment it potentially in the future.
 
 ![Distribution Histograms](/final%20assets/histograms.png)
+
 
 This heatmap gives a very detailed correlation between features. By observing how these features correlate with one another—for instance, whether more danceable tracks tend to be more energetic—you can make more informed decisions on feature selection and engineering for predictive modeling.
 
@@ -173,6 +174,14 @@ This heatmap gives a very detailed correlation between features. By observing ho
 The pairplots between the top 3 features and `in_total_playlists` can give us an insight as to how each feature is mathematically related to each other. This can give potential clues as to which models may be suitable for this regression task. For example, `streams` and `in_total_playlists` appear to be linearly correlated, which may signal that a linear regression is a good model to begin with.
 
 ![Pairplots](/final%20assets/pairplots.png)
+
+<!-- ------------------------------------------------------------------------------------------------------------->
+## Methods
+
+### Data Exploration
+
+The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.
+
 
 ### Preprocessing
 
