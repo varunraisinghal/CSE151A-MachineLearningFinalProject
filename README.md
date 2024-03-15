@@ -246,7 +246,7 @@ Before the neural network model was constructed, we preprocessed all numerical f
 
 #### Training Strategy
 
-The training strategy incorporated several key components to optimize performance and prevent overfitting:
+The training strategy incorporated several key components to optimize performance and prevent overfitting: 
 
 #### Optimizer
 
@@ -382,7 +382,7 @@ Numerical features were standardized using StandardScaler to ensure model input 
 
 #### Model Used
 
-Extra Trees Regressor, trained on the preprocessed numerical features.
+Random Forest, trained on the preprocessed numerical features.
 
 #### Fitting the Model
 
