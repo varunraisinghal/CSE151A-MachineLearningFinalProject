@@ -349,19 +349,17 @@ For this dataset specifically, it was relatively hard to get any one kind of mod
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Collaboration
 Varun Singhal - X Title: 
-    Contribution: 
-          Set up repository, colab notebooks, and etc.. 
-          Helped write abstract document for Milestone 1 and research datasets with group
-          Initial Exploratory Analysis help on Milestone 2
-          What are the next 2 models you are thinking of on Milestone 3
-          What is the conclusion of the models on Milestone 3
-          Completed Milestone 4.1,4.5A,4.5B
-          Final Project #1 - Complete Introduction
-          Final Project #4A - Introduction of Project
+1. Set up repository, colab notebooks, and etc.. 
+2. Helped write abstract document for Milestone 1 and research datasets with group
+3. Initial Exploratory Analysis help on Milestone 2
+4. What are the next 2 models you are thinking of on Milestone 3
+5. What is the conclusion of the models on Milestone 3
+6. Completed Milestone 4.1,4.5A,4.5B
+7. Final Project #1 - Complete Introduction
+8. Final Project #4A - Introduction of Project
           
 Eric Tran
-    Contribution: 
-          Researched datasets with group
-          Milestone 3 - What is the conclusion of your 1st model? What can be done to possibly improve it?
-          Completed Final Project #4EF - Discussion and Conclusion
+1. Researched datasets with group
+2. Milestone 3 - What is the conclusion of your 1st model? What can be done to possibly improve it?
+3. Completed Final Project #4EF - Discussion and Conclusion
 
