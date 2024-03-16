@@ -460,7 +460,7 @@ m3_random_forest(spotify_data, all_features, 'in_total_playlists')
 
 ### Model 4 - Extra Trees Regressor
 
-We chose to implement an Extra Trees Regressor because 
+We chose to implement an Extra Trees Regressor because it is also an ensemble regression model like the RandomForestRegressor, which we saw great performance metrics from based on the results of Model 3. However, in Model 3, we saw that the RandomForest model performed better when we trained the data using all of the features rather than the top 3 features, which made us conclude that feature importance is not as relevant as we thought in such a task. An extra trees regressor works by introducing additional randomness in the thresholds for each feature at every split without searching for the best split. Thus, feature importance is not as important of a task but rather reducing the impact of noisy data, which could help us get the test MSE lower.
 
 #### Implementation
 ```
