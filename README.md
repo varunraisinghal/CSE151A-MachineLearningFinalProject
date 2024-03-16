@@ -155,12 +155,19 @@ The coolest aspect of this project lies in its capacity to convert the abstract 
 The potential impact of an accurate predictive model for song popularity is vast, extending beyond the music industry to influence how content is curated, marketed, and consumed across global digital platforms. For artists and producers, such a model could offer a blueprint for success, enabling them to craft songs with elements that are more likely to appeal to their target audiences. Record labels could optimize their investment strategies, focusing on artists and projects with the highest potential for commercial success. Streaming platforms, on the other hand, could enhance their recommendation algorithms, improving user experience by connecting listeners with songs that are more aligned with their tastes and preferences.
 Moreover, the broader cultural impact of this project could be significant, fostering a greater diversity of music that has the potential to become popular. By understanding the dynamics of hit song production, the industry can move away from a one-size-fits-all approach, encouraging a wider range of artistic expressions to flourish. In essence, a good predictive model does not just predict hits; it could potentially redefine what a hit can be, contributing to a richer, more diverse musical landscape.
 <!-- ------------------------------------------------------------------------------------------------------------->
-## FIGURES/ PICTORIAL REPRESENTATIONS
+<!-- ## FIGURES/ PICTORIAL REPRESENTATIONS
 The Python notebook on GitHub contains various images depicting data visualizations and model analyses, such as histograms, scatter plots, and heatmaps, highlighting key aspects of the project like data distribution, feature correlations, and model performance. 
 The data exploration involved examining track features from Spotify, identifying patterns, and handling missing or erroneous values. Preprocessing techniques included normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics.
 
 ### Figures in Exploratory Data Analysis:
-Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies.
+Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies. -->
+
+<!-- ------------------------------------------------------------------------------------------------------------->
+## Methods
+
+### Data Exploration
+
+The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.
 
 This visual histograms of different features in the dataset gives an insight into the range, distribution type which helps us standardize data and augment it potentially in the future.
 
@@ -175,19 +182,37 @@ The pairplots between the top 3 features and `in_total_playlists` can give us an
 
 ![Pairplots](/final%20assets/pairplots.png)
 
-<!-- ------------------------------------------------------------------------------------------------------------->
-## Methods
-
-### Data Exploration
-
-The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.
-
-
 ### Preprocessing
 
-Preprocessing techniques included handling missing or erroneous values, normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics. For each model, the dataset was split into training and testing sets, to an 80/20 split. This division ensured a robust evaluation of the model's performance, providing a separate dataset for training and another for validation to test the model's prediction on unseen data.\
-\
-Based on the correlation analysis during the data exploration phase, the top 3 correlating features were isolated from the dataset. This step refined the input variables to those most relevant for predicting the target variable, streamlining the model's focus and potentially improving its performance.
+Preprocessing techniques included handling missing or erroneous values, normalizing data, encoding categorical variables, and feature selection to prepare for modeling.
+
+We first checked datatypes for irregularities, such as `float` that should be `int` and so on.
+```
+spotify_data.dtypes
+```
+
+Upon checking,`in_shazam_charts` and `key` had missing values, so we impute 0 for `in_shazam_charts` and dropped `key`, as well as the related `mode` column.
+
+```
+spotify_data['in_shazam_charts'].fillna(value = 0, inplace = True)
+
+spotify_data['in_shazam_charts'] = spotify_data['in_shazam_charts'].astype(np.int64)
+
+spotify_data.drop(['key', 'mode'], axis = 1, inplace = True)
+```
+
+We then fixed `streams`, which had an incorrectly read observation, then we typecasted all features into their appropriate datatypes.
+```
+for i, row in spotify_data.iterrows():
+    try:
+        np.int64(row['streams'])
+    except Exception as error:
+        print(error)
+
+spotify_data.drop(spotify_data[spotify_data['streams'] == 'BPM110KeyAModeMajorDanceability53Valence75Energy69Acousticness7Instrumentalness0Liveness17Speechiness3'].index, inplace = True)
+
+spotify_data['streams'] = spotify_data['streams'].astype(np.int64)
+```
 
 ![Sample output of DataFrame](/final%20assets/dataframe.png)
 
@@ -209,7 +234,7 @@ To assess the model's performance, the Mean Squared Error (MSE) metric was emplo
 
 #### Visualizations
 
-We used Scatter plots comparing actual (y) vs. predicted values (yhat) as a basic way to assess accuracy. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
+We used Scatter plots comparing actual `y` vs. predicted values `yhat` as a basic way to assess accuracy. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
 
 #### Implementation 
 ```
@@ -244,10 +269,6 @@ Output Layer: 1 neuron, ReLU activation
 
 Before the neural network model was constructed, we preprocessed all numerical features within the Spotify dataset. This preprocessing step involved scaling the data using MinMaxScaler to normalize feature values between 0 and 1. The dataset was then split into training and test sets with an 80/20 ratio.
 
-#### Training Strategy
-
-The training strategy incorporated several key components to optimize performance and prevent overfitting: 
-
 #### Optimizer
 
 Adam optimizer was selected with a static learning rate of 0.001.
@@ -264,7 +285,7 @@ The model was evaluated based on its MSE on both training and test datasets. We 
 
 #### Visualizations
 
-Scatter plots comparing actual (y) vs. predicted values (yhat) for both training and test data provided insights into the model's accuracy and areas of improvement. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
+Scatter plots comparing actual `y` vs. predicted values `yhat` for both training and test data provided insights into the model's accuracy and areas of improvement. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
 
 #### Implementation 
 ```
@@ -544,7 +565,7 @@ For this dataset specifically, it was relatively hard to get any one kind of mod
 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Collaboration
-Varun Singhal - X Title: 
+Varun Singhal
 1. Set up repository, colab notebooks, and etc.. 
 2. Helped write abstract document for Milestone 1 and research datasets with group
 3. Initial Exploratory Analysis help on Milestone 2
@@ -564,3 +585,12 @@ Jason Liang - Developer, Documentation Writer
 1. Developed the code for Model 3 and reduced the overall loss 
 2. Contributed to documentation writing for Methods and Discussion
 3. Assisted in drafting ideas for previous milestones
+   
+Thomas Joel
+1. Preprocessing fixing datatypes, removing erroneous values, etc.
+2. Fitting graphs, partial dependence plots for all models
+3. Labeling and structuring of comparison plots
+4. Comparing testing/training results for models 1 and 2
+5. Decomposing models/graphs into functions in notebook
+6. Final Project Methods EDA, Preprocessing
+7. Revising final README
