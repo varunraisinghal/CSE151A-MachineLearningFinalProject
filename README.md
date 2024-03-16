@@ -594,3 +594,11 @@ Thomas Joel
 5. Decomposing models/graphs into functions in notebook
 6. Final Project Methods EDA, Preprocessing
 7. Revising final README
+
+Brian Lee
+1. Helped with preprocessing and scaling data for models 1 and 2
+2. Analyzed linear correlation among all dataset features
+3. Programmed linear regression models for model 1 using top 1, 2, 3 and all features
+4. Programmed DFFNN with RELU activation function for model 2
+5. Performed simple optimization of model 2
+6. Applied K-fold Cross Validation to model 2 to verify average MSE
