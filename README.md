@@ -155,30 +155,22 @@ The coolest aspect of this project lies in its capacity to convert the abstract 
 The potential impact of an accurate predictive model for song popularity is vast, extending beyond the music industry to influence how content is curated, marketed, and consumed across global digital platforms. For artists and producers, such a model could offer a blueprint for success, enabling them to craft songs with elements that are more likely to appeal to their target audiences. Record labels could optimize their investment strategies, focusing on artists and projects with the highest potential for commercial success. Streaming platforms, on the other hand, could enhance their recommendation algorithms, improving user experience by connecting listeners with songs that are more aligned with their tastes and preferences.
 Moreover, the broader cultural impact of this project could be significant, fostering a greater diversity of music that has the potential to become popular. By understanding the dynamics of hit song production, the industry can move away from a one-size-fits-all approach, encouraging a wider range of artistic expressions to flourish. In essence, a good predictive model does not just predict hits; it could potentially redefine what a hit can be, contributing to a richer, more diverse musical landscape.
 <!-- ------------------------------------------------------------------------------------------------------------->
-<!-- ## FIGURES/ PICTORIAL REPRESENTATIONS
-The Python notebook on GitHub contains various images depicting data visualizations and model analyses, such as histograms, scatter plots, and heatmaps, highlighting key aspects of the project like data distribution, feature correlations, and model performance. 
-The data exploration involved examining track features from Spotify, identifying patterns, and handling missing or erroneous values. Preprocessing techniques included normalizing data, encoding categorical variables, and feature selection to prepare for modeling. Models were developed to predict track popularity, with each model's choice and parameters based on initial findings and performance metrics.
 
-### Figures in Exploratory Data Analysis:
-Performing data analysis on large datasets is key to predicting, and understanding deeply on what are its underlying features and what can be extracted and used from it. These visual tools are vital for making informed decisions on data preprocessing and model selection strategies. -->
-
-<!-- ------------------------------------------------------------------------------------------------------------->
 ## Methods
 
 ### Data Exploration
 
-The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis. This selection was based purely on statistical measures of correlation, ensuring an objective approach to feature selection.
+The initial step involved a comprehensive analysis of the Spotify dataset to gain insights into the characteristics and relationships within the data. This phase focused on identifying patterns, outliers, and the underlying distribution of data points. Special attention was given to the correlation between various features and the target variable, in_total_playlists, to pinpoint the most influential predictors. The top 3 features with the highest correlation to the target variable were selected for further analysis.
 
 This visual histograms of different features in the dataset gives an insight into the range, distribution type which helps us standardize data and augment it potentially in the future.
 
 ![Distribution Histograms](/final%20assets/histograms.png)
 
-
 This heatmap gives a very detailed correlation between features. By observing how these features correlate with one another—for instance, whether more danceable tracks tend to be more energetic—you can make more informed decisions on feature selection and engineering for predictive modeling.
 
 ![Correlation Heatmap](/final%20assets/heatmap.png)
 
-The pairplots between the top 3 features and `in_total_playlists` can give us an insight as to how each feature is mathematically related to each other. This can give potential clues as to which models may be suitable for this regression task. For example, `streams` and `in_total_playlists` appear to be linearly correlated, which may signal that a linear regression is a good model to begin with.
+The pairplots between the top 3 features and `in_total_playlists` can give us an insight as to how each feature is mathematically related to each other.
 
 ![Pairplots](/final%20assets/pairplots.png)
 
@@ -230,7 +222,7 @@ The Linear Regression model was trained using the selected top 3 features from t
 
 #### Model Evaluation
 
-To assess the model's performance, the Mean Squared Error (MSE) metric was employed, a common loss metric for regressions.
+To assess the model's performance, the Mean Squared Error (MSE) metric was employed, a common loss metric for regressions, as well as the R-squared (R2) score.
 
 #### Visualizations
 
@@ -281,7 +273,7 @@ We also used early stopping to halt training if the validation loss did not impr
 
 #### Evaluation and Analysis
 
-The model was evaluated based on its MSE on both training and test datasets. We also performed K-Fold Cross Validation on this model to get comparison results from randomly chosen folds of the dataset.
+The model was evaluated based on its MSE on both training and test datasets. We also used the R-squared (R2) score and performed K-Fold Cross Validation on this model to get comparison results from randomly chosen folds of the dataset.
 
 #### Visualizations
 
@@ -393,28 +385,26 @@ m2_neural_network(spotify_data, all_features, 'in_total_playlists')
 
 ### Model 3 - Random Forest
 
-#### Data Preparation
+#### Data Exploration and Preprocessing
 
-The dataset includes features like artist count, release year, streams, and various musical attributes (e.g., bpm, danceability).Excluded columns related to playlist inclusions on specific platforms and non-numerical features (e.g., track name, artist names) to focus on numerical predictors.The target variable is in_total_playlists, representing the total playlist inclusions across platforms.
-Preprocessing
-Numerical features were standardized using StandardScaler to ensure model input variables have a mean of 0 and a standard deviation of 1, improving model performance.
-
-#### Model Training and Evaluation
+Model 3, like model 2, leverages all numerical features from the Spotify dataset.
+The numeric features were standardized using StandardScaler to ensure model input variables have a mean of 0 and a standard deviation of 1.
 
 #### Model Used
 
 Random Forest, trained on the preprocessed numerical features.
 
-#### Fitting the Model
+#### Model Training
 
 The model was trained using the entire set of standardized numerical features from the training dataset.
 
-#### Performance Metrics
+#### Model Evaluation
 
-#### Mean Squared Error (MSE)
+We used the Mean Squared Error (MSE) metric and R-squared (R2) score to measure the model's error and correlation between the input and output feature(s).
 
-10,363,528.63, indicating the average squared difference between the estimated values and the actual value of the total playlist inclusions.
-R-squared (R²).
+#### Visualizations
+
+Scatter plots comparing actual `y` vs. predicted values `yhat` for both training and test data provided insights into the model's accuracy and areas of improvement. We also did fitting graphs, with each input feature plotted against the output. Partial Dependence Plots (PDPs) were used to see the effect of each individual feature on the prediction outcome.
 
 #### Implementation 
 
@@ -494,7 +484,7 @@ We can see in the fitting graph the model's predictions mostly cover the actual 
 \
 ![Model 1 Fitting Plots](/final%20assets/m1%20fp%20test.png)
 
-The partial dependence plots show the output is strongly correlated with `streams`, and seems to be more weakly correlated with `in_apple_charts` since the line misses the cluster.\
+The partial dependence plots show the output is strongly correlated with `streams`, and seems to be more weakly correlated with `in_apple_charts` since the line misses the large bottom left cluster.\
 \
 ![Model 1 Partial Dependence Plots](/final%20assets/m1%20pdp%20test.png)
 
@@ -536,32 +526,40 @@ The testing MSE is ~12,000,000, and the R2 score is ~0.83, a strong improvement 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Discussion
 
-### Data exploration 
+### Data exploration
 
-After settling on a dataset to work with, the data exploration involved inspecting the various metrics and variables that went into making a song popular. We looked for key columns that we might think had the most impact on making a song popular. Some observations we had about the data were that there were some columns with missing values. For those columns, we planned on just removing them in the preprocessing step. As for columns with the wrong type, we typecasted columns like ‘streams’ from ‘object/float64’ to ‘int64’ so that we could actually do work on that data.
+After settling on a dataset to work with, the data exploration involved inspecting the various metrics and variables that went into making a song popular. We looked for key columns that we might think had the most impact on making a song popular. In particular, the heatmap indicated to us the top 3 features correlated to `in_total_playlists`, which were `streams`, `in_apple_charts`, and `released_year`.\
+\
+Upon observing their relationships with a pairplot, we see that for example, `streams` and `in_total_playlists` appear to be linearly correlated, which may signal that a linear regression is a good model to begin with. Thus, we began with a linear regression model.
+
+
+Some observations we had about the data were that there were some columns with missing values. For those columns, we planned on just removing them in the preprocessing step. As for columns with the wrong type, we typecasted columns like ‘streams’ from ‘object/float64’ to ‘int64’ so that we could actually do work on that data.
 
 ### Preprocessing  
 
-If the value for in_shazam_charts is not applicable, then it must not be in the Shazam charts, so it would in turn be false (aka 0).  since there were 95 missing values which will likely detract from our model without imputation. since it is related to the key and not necessary for objective. We wanted to do this to get a good understanding of the basic statistical details like mean, standard deviation, minimum, and maximum values of each numeric feature so that we can get a good sense of our data. histogram to help understand the distribution of the characteristics of the songs. Heatmap in order to identify trends and analyze how different features correlate to each other. 
+If the value for `in_shazam_charts` is not applicable, then it must not be in the Shazam charts, so it would in turn be inputed as 0. Since `key` also had 95 missing, we dropped it along with `mode`, which were both related and non-numeric features.\
+\
+Furthermore, one of the observations was read incorrectly, so all of the other input features were crammed into one. We removed the erroneous row entirely, then we typecasted all of the feature columns to their appropriate datatypes (`object` for words, `int64` for numeric).
 
 ### Model 1 - Linear Regression Model
 
-We chose a linear regression for our first model because of the model's simplicity and suitability for establishing basic linear relationships between the selected features and the target variable. Upon training our model using the top 3 input features correlated to the output feature, predicting the yhat, and attempting to plot, we discovered that we did not fully understand what our independent variable would be on a plot. Since we used multiple input features, when we plotted each yhat with each input feature, we did not get straight lines as expected from a regression. Thus, we relied on partial dependence plots, which keeps all but 1 input feature constant, allowing us to see each input feature's contribution to the output independently. We used MSE as quantitative measure of the model's accuracy by calculating the average squared difference between the predicted and actual values. This error function is used in regressions often, and gave us a baseline value to compare other models to.
+We chose a linear regression for our first model because of the model's simplicity and suitability for establishing basic linear relationships between the selected features and the target variable. Upon training our model using the top 3 input features correlated to the output feature, predicting the `yhat`, and attempting to plot, we discovered that we did not fully understand what our independent variable would be on a plot. Since we used multiple input features, when we plotted each yhat with each input feature, we did not get straight lines as expected from a regression. Thus, we relied on partial dependence plots, which keeps all but 1 input feature constant, allowing us to see each input feature's contribution to the output independently. We used MSE as quantitative measure of the model's accuracy by calculating the average squared difference between the predicted and actual values. This error function is used in regressions often, and gave us a baseline value to compare other models to. We also added in the R2 score as a quick way of checking how well correlated the input features were to the output. These metrics were also used in the other models.
 
 ### Model 2 - DFFNN with RELU
 
-For the next model, we decided to use a deep feed forward neural network using a relu activation function to improve upon the MSE of the first model. We used a neural network implemented with 4 hidden layers which was a good enough number such that the model would not be too simple like our linear regression model nor would it lead to overfitting because of its increased complexity. Our results for the 2nd model were much more believable than the 1st model because our predicted values started to conform to the general shape of the data for the scatter plots. We saw a slight decrease in MSE suggesting that the model was better than linear regression. This was visible in the partial dependence plots where the curvature in the lines just slightly fit better than a linear regression.
+For the next model, we decided to use a deep feed forward neural network using a RELU activation function to improve upon the MSE of the first model. We used a neural network implemented with 4 hidden layers which was a good enough number such that the model would not be too simple like our linear regression model nor would it lead to overfitting because of its increased complexity. Our results for the 2nd model were much more believable than the 1st model because our predicted values started to conform to the general shape of the data for the scatter plots. We saw a slight decrease in MSE suggesting that the model was better than linear regression. This was visible in the partial dependence plots where the curvature in the lines just slightly fit better than a linear regression.
 
 ### Model 3 - Random Forest
 
-We used a Random Forest regressor and Extra Trees regressor for our 3rd model with hyperparameter tuning to improve upon the MSE of our first two models. The MSE once again improved as we increased the complexity of our models. Our 2nd model had a pretty good improvement over linear regression. However, for our 3rd model, the addition of hypertuning parameters further improved our MSE. As for the plots, we again plotted each feature on a scatterplot against the data. Like our 2nd model, the scatterplots showed that our predicted values for both training and test sets relatively fit the shape of the actual data. For our partial dependence plots specifically looking at the ‘streams’, which was the highest correlating feature, the line of best fit started to look more complex rather than a straight line or a line with a slight curve. This could have indicated that our models were better generalizing to the data than before.
+We used a Random Forest regressor and Extra Trees regressor for our 3rd model with hyperparameter tuning to improve upon the MSE of our first two models. The MSE once again improved as we increased the complexity of our models. Our 2nd model had a pretty good improvement over linear regression. However, for our 3rd model, the addition of hypertuning parameters further improved our MSE. As for the plots, we again plotted each feature on a scatterplot against the data. Like our 2nd model, the scatterplots showed that our predicted values for both training and test sets relatively fit the shape of the actual data. For our partial dependence plots specifically looking at the `streams`, which was the highest correlating feature, the line of best fit started to look more complex rather than a straight line or a line with a slight curve. This could have indicated that our models were better generalizing to the data than before.
 
 ### Final Thoughts
-Although in our final model we arrive at a final trained MSE of ~12,000,000 - this is a much better improvement than in model 1 and model 2. The nature of having such a high MSE is due to the fact that the average mean value of the feature that we are predicting is around 5000 which is reasonable to have an error with a magnitude of that order. It won't be a small increment due to the nature of how big the denomination is. Since we use MSE, we should expect a exponential (square) of the average, resulting in an extremely high value which indicates that our final MSE of ~12,000,000 is not so bad actually.  
+
+Although in our final model 3 we arrive at a final testing MSE of ~12,000,000, this is a much better improvement than in model 1 and model 2. The nature of having such a high MSE is due to the fact that the average mean value of the feature that we are predicting is around 5000, so it is reasonable to have an error with a magnitude of that order. It won't be a small increment due to the nature of how big the denomination is. Since we use MSE, we should expect a exponential (square) of the average, resulting in an extremely high value which indicates that our final MSE of ~12,000,000 is not so bad actually. We also see the R2 score is ~0.83, which is improved from the other models.
 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Conclusion
-For this dataset specifically, it was relatively hard to get any one kind of model that fit the data. However, we did continually improve our performance over each milestone by increasing the complexity of the models we used. For the scatterplots, the general shape of our predicted models started to better fit the data over every iteration. However, for the ‘streams’ scatterplot for model 3 our model was wildly off from the data. This could be concerning as ‘streams’ was the feature that most correlated to making a popular song. Other than that, our models improved each time. For the partial dependence plots, there was not much of a visible pattern to the data in the first place. However, we feel that our line of best fit did generalize better to the data over each model. The data overall mostly had clusters of data points, which made it hard for a line of any kind to represent the shape of the data properly. The ‘streams’ feature had the most clear relationship of any feature. The partial dependence plots for ‘streams’ seem to have improved as the models became more complex. For future directions, we could possibly combine multiple models for added complexity, while being cautious of overfitting due to being overly complex. The goal over the entire project was to see if there was anything specific that went into producing a hit song, by capturing a general pattern of any specific feature of a song.
+For this dataset specifically, it was relatively hard to get any one kind of model that fit the data. However, we did continually improve our performance over each milestone by increasing the complexity of the models we used. For the scatterplots, the general shape of our predicted models started to better fit the data over every iteration. For the partial dependence plots, there was not much of a visible pattern to the data in the first place. However, we feel that our line of best fit did generalize better to the data over each model. The data overall mostly had clusters of data points, which made it hard for a line of any kind to represent the shape of the data properly. The 'streams' feature had the most clear relationship to the output feature. The partial dependence plots for 'streams' seem to have improved as the models became more complex. For future directions, we could possibly combine multiple models for added complexity, while being cautious of overfitting due to being overly complex. The goal over the entire project was to see if there was anything specific that went into producing a hit song, by capturing a general pattern of any specific features of a popular song.
 
 <!-- ------------------------------------------------------------------------------------------------------------->
 ## Collaboration
