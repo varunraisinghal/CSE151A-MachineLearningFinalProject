@@ -560,3 +560,7 @@ Eric Tran
 2. Milestone 3 - What is the conclusion of your 1st model? What can be done to possibly improve it?
 3. Completed Final Project #4EF - Discussion and Conclusion
 
+Jason Liang - Developer, Documentation Writer
+1. Developed the code for Model 3 and reduced the overall loss 
+2. Contributed to documentation writing for Methods and Discussion
+3. Assisted in drafting ideas for previous milestones
