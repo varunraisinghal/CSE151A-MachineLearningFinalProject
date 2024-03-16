@@ -602,3 +602,13 @@ Brian Lee
 4. Programmed DFFNN with RELU activation function for model 2
 5. Performed simple optimization of model 2
 6. Applied K-fold Cross Validation to model 2 to verify average MSE
+
+Amit Namburi
+
+   1. Helped writing and coming up with the abstarct for the project and experimenting with different kaggle datasets.
+   2. Worked on the Exploratory Data Analysis for the project which included defining and exploring the dataset with different features, graphs, heatmaps, and more visualization with regard to the dataset. 
+   3. Helped in preprocessing data and more data analysis with visualizations.
+   4. Helped with programming the linear regression model and brainstorming ideas for different models, along with potential future models. 
+   5. Worked on different milestone writeups and analyzing the results of different models to come up with newer ideas for prediction. 
+   6. Collaborated in writing the milestones along  with the final submission writeup parts: 4 B,C,D and part of final model writeup. 
+   7. Revising/Editing README whenever there are submissions. 
