@@ -612,3 +612,8 @@ Amit Namburi
    5. Worked on different milestone writeups and analyzing the results of different models to come up with newer ideas for prediction. 
    6. Collaborated in writing the milestones along  with the final submission writeup parts: 4 B,C,D and part of final model writeup. 
    7. Revising/Editing README whenever there are submissions. 
+   
+Desiree Alcantara
+1. Training and testing errors for models in third milestone
+2. Discussed potential models for milestone four
+3. Developed an alternative approach for model 2 to compare losses
