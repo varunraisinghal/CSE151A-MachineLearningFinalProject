@@ -602,3 +602,8 @@ Brian Lee
 4. Programmed DFFNN with RELU activation function for model 2
 5. Performed simple optimization of model 2
 6. Applied K-fold Cross Validation to model 2 to verify average MSE
+
+Desiree Alcantara
+1. Training and testing errors for models in third milestone
+2. Discussed potential models for milestone four
+3. Developed an alternative approach for model 2 to compare losses
